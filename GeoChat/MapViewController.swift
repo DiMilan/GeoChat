@@ -38,7 +38,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.startUpdatingLocation()
 
-        let camera = GMSCameraPosition.camera(withLatitude: currentUserLatitude, longitude: currentUserLongitude, zoom: 13)
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 14)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         view = mapView
         //marker
@@ -46,10 +46,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         let currentLocation = CLLocationCoordinate2DMake(latitude, longitude)
         let marker = GMSMarker(position: currentLocation)
         marker.title = "You"
+        marker.snippet = "your location"
         marker.map = mapView
         
-        let circleCenter : CLLocationCoordinate2D  = CLLocationCoordinate2DMake(currentUserLatitude, currentUserLongitude);
-        let distance = 1.0 //Km
+        let circleCenter : CLLocationCoordinate2D  = CLLocationCoordinate2DMake(latitude, longitude);
+        let distance = 1000.0 //in meters
         let circ = GMSCircle(position: circleCenter, radius: distance)
         circ.fillColor = UIColor(red: 0.0, green: 0.7, blue: 0, alpha: 0.1)
         circ.strokeColor = UIColor(red: 255/255, green: 153/255, blue: 51/255, alpha: 0.5)
@@ -67,6 +68,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
             currentUserLatitude = location.coordinate.latitude
             currentUserLongitude = location.coordinate.longitude
+            print("user latitude: \(currentUserLatitude)")
+            print("user longitude: \(currentUserLongitude)")
         }
     }
     
